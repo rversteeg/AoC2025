@@ -1,21 +1,21 @@
 public class Day04
 {
+    private static readonly (int xOffset, int yOffset)[] Offsets = [
+        (-1, -1),
+        (0, -1),
+        (1, -1),
+        (-1, 0),
+        (1, 0),
+        (-1, 1),
+        (0, 1),
+        (1, 1),
+    ];
+    
     public static long Part01(ReadOnlySpan<char> input)
     {
         var field = new Field(input);
         var result = 0;
-
-        (int xOffset, int yOffset)[] offsets = [
-            (-1, -1),
-            (0, -1),
-            (1, -1),
-            (-1, 0),
-            (1, 0),
-            (-1, 1),
-            (0, 1),
-            (1, 1),
-        ];
-
+        
         for (int x = 0; x < field.Width; x++)
         for (int y = 0; y < field.Height; y++)
         {
@@ -23,7 +23,7 @@ public class Day04
                 continue;
             
             var count = 0;
-            foreach (var offset in offsets)
+            foreach (var offset in Offsets)
             {
                 if (field.GetValue(x - offset.xOffset, y - offset.yOffset) == '@')
                     count++;
@@ -39,21 +39,9 @@ public class Day04
     public static long Part02(ReadOnlySpan<char> input)
     {
         var field = new Field(input);
-
-        (int xOffset, int yOffset)[] offsets = [
-            (-1, -1),
-            (0, -1),
-            (1, -1),
-            (-1, 0),
-            (1, 0),
-            (-1, 1),
-            (0, 1),
-            (1, 1),
-        ];
-
         HashSet<(int x, int y)> removed = new HashSet<(int x, int y)>();
-
         bool removedNew;
+        
         do
         {
             removedNew = false;
@@ -64,7 +52,7 @@ public class Day04
                     continue;
                 
                 var count = 0;
-                foreach (var offset in offsets)
+                foreach (var offset in Offsets)
                 {
                     var index = (x: x - offset.xOffset, y: y - offset.yOffset);
                     if (!removed.Contains(index) && field.GetValue(index.x, index.y) == '@')
