@@ -4,10 +4,26 @@ public class Day05
     public static long Part01(ReadOnlySpan<char> input)
     {
         var splitAt = input.IndexOf(Seperator);
-        var ranges = ParseRanges(input.Slice(0, splitAt));
-        var ingredients = ParseIngredients(input.Slice(splitAt + Seperator.Length));
+        var ranges = ParseRanges(input.Slice(0, splitAt)).OrderBy(x=>x.From).ThenByDescending(x=>x.To).ToList();
+        var ingredients = ParseIngredients(input.Slice(splitAt + Seperator.Length)).Order().ToList();
 
-        return ingredients.LongCount(ingredient => ranges.Any(range => IsInRange(ingredient, range)));
+        var curRange = 0;
+        var answer = 0L;
+
+        foreach (var ingredient in ingredients)
+        {
+            while (ranges[curRange].To < ingredient)
+            {
+                curRange++;
+                if (curRange >= ranges.Count)
+                    return answer;
+            }
+            
+            if (ranges[curRange].From <= ingredient)
+                answer++;
+        }
+
+        return answer;
     }
 
     private static bool IsInRange(long ingredient, (long From, long To) range) => ingredient >= range.From && ingredient <= range.To;
