@@ -1,7 +1,13 @@
-﻿var testInput = File.ReadAllText("./Input/Day04.test.txt").Trim();
-var input = File.ReadAllText("./Input/Day04.txt").Trim();
+﻿using System.Diagnostics;
 
-var result = Day04.Part01(input);
-Console.WriteLine(result);
-var result2 = Day04.Part02(input);
-Console.WriteLine(result2);
+var testInput = File.ReadAllText("./Input/Day05.test.txt").Trim();
+var input = File.ReadAllText("./Input/Day05.txt").Trim();
+
+var start = Stopwatch.GetTimestamp();
+var result = Day05.Part01(input);
+var end = Stopwatch.GetTimestamp();
+Console.WriteLine($"Part 1: {result} ({Stopwatch.GetElapsedTime(start, end)}");
+start = Stopwatch.GetTimestamp();
+var result2 = Day05.Part02(input);
+end = Stopwatch.GetTimestamp();
+Console.WriteLine($"Part 2: {result2} ({Stopwatch.GetElapsedTime(start, end)}");
